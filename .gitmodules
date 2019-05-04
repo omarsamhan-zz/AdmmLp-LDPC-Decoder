@@ -1,0 +1,6 @@
+[submodule "ext_libs/eigen-git-mirror"]
+	path = ext_libs/eigen-git-mirror
+	url = https://github.com/eigenteam/eigen-git-mirror
+[submodule "ext_libs/CLI11"]
+	path = ext_libs/CLI11
+	url = https://github.com/CLIUtils/CLI11.git
