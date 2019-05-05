@@ -23,7 +23,7 @@ code_struct read_alist(string filename) {
     ifstream alist_file;
     alist_file.open(filename.cstr());
 
-    code_struct code_r;
+    code_struct cr; // code read from file
     
     if (!alist_file) {
         cerr << "Unable to open file datafile.txt";
@@ -33,8 +33,8 @@ code_struct read_alist(string filename) {
     // Read code length and dimension
     std::string line;
     if(std::getline(infile, line))
-        iss >> n >> m;
-        k = n - m;
+        iss >> cr.n >> cr.m;
+        cr.k = cr.n - cr.m;
     else {
         cerr << "Cannot read line: code length and dimension\n";
         exit(1);
@@ -42,7 +42,7 @@ code_struct read_alist(string filename) {
 
     // Read check and variable degrees
     if(std::getline(infile, line))
-        iss >> d_c >> d_v;
+        iss >> cr.d_c >> cr.d_v;
     else {
         cerr << "Cannot read: code degrees!\n";
         exit(1);
@@ -50,12 +50,33 @@ code_struct read_alist(string filename) {
     
     // Read check degree vector
     if(std::getline(infile, line)) {
-        out_code.row_density.resize(cout.code)
-        while() 
-        //iss >> out_code.d_c >> out_code.d_v;
+        cr.row_density.resize(cout.code)
+        for(int i = 0; i < cr.m; i++) { // read row degrees
+            if(!iss >> cr.row_density[i]) {
+                cerr << "Error reading row density vector!\n";
+                exit(1);
+            }
+        } 
     } else {
         cerr << "Cannot read: code degrees!\n";
         exit(1);
     }
+
+    // Read check degree vector
+    if(std::getline(infile, line)) {
+        cr.row_density.resize(cout.code)
+        for(int i = 0; i < cr.n; i++) { // read row degrees
+            if(!iss >> cr.row_density[i]) {
+                cerr << "Error reading column density vector!\n";
+                exit(1);
+            }
+        } 
+    } else {
+        cerr << "Cannot read: code degrees!\n";
+        exit(1);
+    }
+
+    infile.close();
+    return cr;
 
 }
