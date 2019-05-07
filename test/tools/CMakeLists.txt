@@ -2,11 +2,7 @@ include(GoogleTest)
 add_executable(tools_test
        read_parity_mat_test.cpp)
 
-# gtest_add_tests(TARGET      FooTest
-#       TEST_SUFFIX .noArgs
-#       TEST_LIST   noArgsTests
-#)
+target_link_libraries(tools_test tools gtest_main)
 
-# add_library (tools_test )
+add_test (tools_test tools_test)
 
-target_include_directories(tootle_test tools)

@@ -1,3 +1,5 @@
+# Root cmake file
+
 cmake_minimum_required (VERSION 3.2)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -11,7 +13,9 @@ include_directories (googletest/googletest/include/)
 add_subdirectory (tools)
 
 enable_testing()
-if(test)
-    add_subdirectory (test/tools)
-    add_test(NAME that-test-I-made COMMAND runUnitTests)
-endif()
+add_subdirectory (test/tools)
+add_subdirectory (ext_libs/googletest)
+#find_package(GTest REQUIRED)
+# if(test)
+#     add_test(NAME that-test-I-made COMMAND runUnitTests)
+# endif()
