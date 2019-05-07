@@ -8,14 +8,9 @@ set (project_name admmlp_ldpc_decoder)
 
 project (project_name)
 
-include_directories (googletest/googletest/include/)
-
 add_subdirectory (tools)
 
 enable_testing()
+
 add_subdirectory (test/tools)
 add_subdirectory (ext_libs/googletest)
-#find_package(GTest REQUIRED)
-# if(test)
-#     add_test(NAME that-test-I-made COMMAND runUnitTests)
-# endif()
