@@ -7,6 +7,15 @@
 #include <iostream>
 using namespace std;
 
+enum read_alist_state {
+    MAT_SIZE = 0,
+    DENSITY,
+    COL_DENSITY_VEC,
+    ROW_DENSITY_VEC,
+    V2C_MAT,
+    C2V_MAT
+};
+
 struct code_struct {
     int n; // Code length
     int k; // Code dimention

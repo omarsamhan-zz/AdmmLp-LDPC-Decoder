@@ -8,9 +8,8 @@ set (project_name admmlp_ldpc_decoder)
 
 project (project_name)
 
-add_subdirectory (tools)
-
 enable_testing()
 
+add_subdirectory (tools)
 add_subdirectory (test/tools)
 add_subdirectory (ext_libs/googletest)
