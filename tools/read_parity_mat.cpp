@@ -21,7 +21,6 @@ code_struct read_alist(string filename) {
 
     int count; // Keep count of the vectors and matrices read 
 
-    cout << "Hi!\n";
     while(getline(alist_file, line)) {
         stringstream iss(line);
         switch(read_state) {
@@ -29,11 +28,11 @@ code_struct read_alist(string filename) {
                 iss >> cr.n >> cr.m;
                 cr.k = cr.n - cr.m;
                 read_state = DENSITY;
-                cout << "n = " << cr.n << ", m = " << cr.m << ", k = " << cr.k << endl;
+                //cout << "n = " << cr.n << ", m = " << cr.m << ", k = " << cr.k << endl;
                 break;
             case DENSITY:
                 iss >> cr.d_c >> cr.d_v;
-                cout << "d_c = " << cr.d_c << ", d_v = " << cr.d_v << endl;
+                //cout << "d_c = " << cr.d_c << ", d_v = " << cr.d_v << endl;
                 read_state = COL_DENSITY_VEC;
                 break;
             case COL_DENSITY_VEC:
@@ -41,12 +40,12 @@ code_struct read_alist(string filename) {
                 count = 0;
                 while(iss >> cr.col_density[count]) count++;
 
-                cout << "col_density = ";
-                for(int i=0; i<cr.n; i++) {
-                    cout << cr.col_density[i] << " ";
-                }
+                //cout << "col_density = ";
+                //for(int i=0; i<cr.n; i++) {
+                //    cout << cr.col_density[i] << " ";
+                //}
                 assert(count == cr.n);
-                cout << endl;
+                //cout << endl;
                 read_state = ROW_DENSITY_VEC;
                 break;
             case ROW_DENSITY_VEC:
@@ -54,13 +53,13 @@ code_struct read_alist(string filename) {
                 //count = 0;
                 for(count = 0; iss >> cr.row_density[count]; count++){};
 
-                cout << "row_density = ";
-                for(int i=0; i<cr.m; i++) {
-                    cout << cr.row_density[i] << " ";
-                }
-                cout << "count = " << count << endl;
+                //cout << "row_density = ";
+                //for(int i=0; i<cr.m; i++) {
+                //    cout << cr.row_density[i] << " ";
+                //}
+                //cout << "count = " << count << endl;
                 assert(count == cr.m);
-                cout << endl;
+                //cout << endl;
                 read_state = V2C_MAT;
                 break;
             case V2C_MAT:
@@ -72,23 +71,47 @@ code_struct read_alist(string filename) {
                 row_count++;
                 if(row_count == cr.n) {
 
-                    cout << "var2chk_conn = " << endl;
-                    for(int i=0; i<cr.n; i++) {
-                        for(int j=0; j<cr.col_density[i]; j++) {
-                            cout << setw(5) << cr.var2chk_conn[i][j];
-                        }
-                        cout << endl;
-                    }
+                    //cout << "var2chk_conn = " << endl;
+                    //for(int i=0; i<cr.n; i++) {
+                    //    for(int j=0; j<cr.col_density[i]; j++) {
+                    //        cout << setw(5) << cr.var2chk_conn[i][j];
+                    //    }
+                    //    cout << endl;
+                    //}
+                    row_count = 0;
                     read_state = C2V_MAT;
                 }
                 break;
             case C2V_MAT:
-                exit(0);
+                count = 0;
+                cr.chk2var_conn.resize(cr.m);
+                for(int i=0; i<cr.m; i++) cr.chk2var_conn[i].resize(cr.row_density[i]);
+                while(iss >> cr.chk2var_conn[row_count][count]) count++;
+                row_count++;
+                if(row_count == cr.m) {
+
+                    //cout << "chk2var_conn = " << endl;
+                    //for(int i=0; i<cr.m; i++) {
+                    //    for(int j=0; j<cr.row_density[i]; j++) {
+                    //        cout << setw(5) << cr.chk2var_conn[i][j];
+                    //    }
+                    //    cout << endl;
+                    //}
+                    read_state = END_PARITY_READ;
+                }
+                break;
+            END_PARITY_READ:
+                // This part SHOULD NOT be executed since an eof should occur at this point
+                cerr << "EOF expected.\n";
+                exit(1);
+                break;
             default:
                 cerr << "case does not exist.\n";
                 exit(1);
         }
     }
+
+    return cr;
 
 }
 

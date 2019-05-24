@@ -13,7 +13,8 @@ enum read_alist_state {
     COL_DENSITY_VEC,
     ROW_DENSITY_VEC,
     V2C_MAT,
-    C2V_MAT
+    C2V_MAT,
+    END_PARITY_READ
 };
 
 struct code_struct {
